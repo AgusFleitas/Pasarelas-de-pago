@@ -1,0 +1,3 @@
+.cart-button ~ input:checked ~ .cart {
+    display: block;
+  }
