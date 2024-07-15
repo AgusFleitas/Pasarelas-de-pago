@@ -1,4 +1,5 @@
 import { createContext, useReducer } from "react";
+import { catalogue } from "../js/catalogue";
 
 // 1. Crear contexto.
 export const CartContext = createContext();
@@ -14,25 +15,27 @@ const reducer = (state, action) => {
 
   // Utilizamos un switch para detallar la lógica a seguir en cada caso. Este switch va a recibir el tipo de acción y detallamos la lógica en cada tipo.
   switch (actionType) {
-
     case "ADD_TO_CART": {
       const { id } = actionPayload;
 
-          // Buscamos si el producto ya se encuentra en el carrito.
+      // Buscamos si el producto ya se encuentra en el carrito.
       const productInCartIndex = state.findIndex((item) => item.id === id);
 
-          // Si ya se encuentra en el carrito, creamos una copia profunda del carrito con structuredCLone, luego accedemos a la propiedad 'quantity' de ese producto y la incrementamos en 1. Finalmente, retornamos nuestra copia modificada.
+      // Si ya se encuentra en el carrito, creamos una copia profunda del carrito con structuredCLone, luego accedemos a la propiedad 'quantity' de ese producto y la incrementamos en 1. Finalmente, retornamos nuestra copia modificada.
       if (productInCartIndex >= 0) {
         const newState = structuredClone(state);
         newState[productInCartIndex].quantity += 1;
         return newState;
       }
 
-          // Si no está en el carrito hacemos una copia del estado existente, hacemos una copia del payload (el producto) para conservar todas sus propiedades y dentro de la propiedad quantity ingresamos '1' ya que será la primera unidad de este producto.
+      // Si no está en el carrito vamos a crear una constante llamada newItem para insertar el nuevo producto, este va a ser el retorno de encontrar en el catálogo el producto con el ID que recibimos en el Payload. Luego retornamos una copia del estado (para conservar los productos que ya tenemos), una copia de nuestro item y la cantidad en 1.
+
+      const newItem = catalogue.find((item) => item.id === id);
+
       return [
         ...state,
         {
-          ...actionPayload,
+          ...newItem,
           quantity: 1,
         },
       ];
@@ -40,10 +43,11 @@ const reducer = (state, action) => {
 
     case "REMOVE_FROM_CART": {
       const { id } = actionPayload;
+
       return state.filter((item) => item.id != id);
     }
-     
-    case "CLEAR_CART" : {
+
+    case "CLEAR_CART": {
       return initialState;
     }
   }
@@ -56,17 +60,19 @@ export function CartProvider({ children }) {
   // Estado para listar el carrito.
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addToCart = product => dispatch({
-    type: 'ADD_TO_CART',
-    payload: product
-  })
+  const addToCart = (product) =>
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: product,
+    });
 
-  const removeFromCart = product => dispatch({
-    type: 'REMOVE_FROM_CART',
-    payload: product
-  })
+  const removeFromCart = (product) =>
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: product,
+    });
 
-  const clearCart = () => dispatch({type: 'CLEAR_CART'})
+  const clearCart = () => dispatch({ type: "CLEAR_CART" });
 
   return (
     <CartContext.Provider
