@@ -9,8 +9,6 @@ const Catalogue = () => {
     return cart.some((item) => item.id === product.id);
   };
 
-  console.log(cart);
-
   return (
     <section className='mx-auto grid grid-cols-6 gap-x-2 gap-y-8 max-w-[1400px]'>
       {catalogue.map((product) => {

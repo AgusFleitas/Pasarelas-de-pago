@@ -15,6 +15,7 @@ const CatalogueCard = ({id, titulo, imagen, descripcion, precio, isInCart, butto
         ${precio.toFixed(2)}
       </span>
       <button
+      title="Añadir una unidad de este producto al carrito."
       onClick={() => buttonFunc({id})} 
       style={{ 
         borderColor: isInCart ? 'rgb(127 29 29)' : 'rgb(6 95 70)',
