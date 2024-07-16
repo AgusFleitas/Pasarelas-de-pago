@@ -1,4 +1,4 @@
-import Catalogue from "./Catalogue";
+import Catalogue from "../components/Catalogue";
 
 const Landing = () => {
   return (
