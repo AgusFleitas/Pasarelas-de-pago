@@ -14,7 +14,7 @@ function App() {
   return (
     <CartProvider>
         <Header />
-      <main className='grid justify-center items-center px-44 pt-8'>
+      <main className='grid items-center px-44 pt-8'>
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='/pay-cart' element={<PayCart />} />
