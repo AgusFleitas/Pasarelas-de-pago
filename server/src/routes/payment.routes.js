@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPreference } from "../controllers/payment.controllers.js";
+import { createPreference, receiveNotification } from "../controllers/payment.controllers.js";
 
 // Inicializamos el enrutador con el Router que importamos de Express.
 const router = Router();
@@ -10,5 +10,6 @@ router.get('/', (req, res) => {
 })
 
 router.post("/create-preference", createPreference)
+router.post('/webhooks', receiveNotification)
 
 export default router;
