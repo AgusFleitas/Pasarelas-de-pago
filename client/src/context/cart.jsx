@@ -1,5 +1,6 @@
 import { createContext, useReducer } from "react";
 import { catalogue } from "../js/catalogue";
+import generateRandomRef from "../hooks/randomRef";
 
 import axios from 'axios'
 
@@ -104,12 +105,16 @@ export function CartProvider({ children }) {
       };
     });
 
+    const randomExternalRef = generateRandomRef();
+
     try {
       const response = await axios.post(
         "http://localhost:3000/create-preference",
         {
           products: cartItems,
-        }
+          reference: randomExternalRef
+        },
+        
       );
 
       const { id } = response.data;
