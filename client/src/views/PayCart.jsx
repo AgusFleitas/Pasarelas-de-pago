@@ -15,12 +15,6 @@ const PayCart = () => {
 
   return (
     <section className='flex flex-col'>
-      <Link
-        className='bg-emerald-600 rounded-md py-1 px-3 w-40 text-center self-center mb-8 font-semibold hover:scale-105 transition-transform'
-        to={"/"}
-      >
-        Volver al catálogo
-      </Link>
       <div className='flex justify-around px-24'>
         <ul className='flex flex-col gap-y-4  '>
           {cart.map((product) => (
