@@ -9,8 +9,6 @@ export const createPreference = async (req, res) => {
 
     const { products, reference } = req.body;
 
-    console.log('Desde el backend, esta es la referencia que llega: ', reference);
-
     const itemList = products.map((product) => {
       return {
         title: product.name,
@@ -18,6 +16,7 @@ export const createPreference = async (req, res) => {
         unit_price: product.price,
         currency_id: product.currency,
         description: product.description,
+        category: product.category,
         picture_url: product.image
       };
     });
@@ -32,6 +31,7 @@ export const createPreference = async (req, res) => {
         pending: "https://guitarflash.com/",
       },
       auto_return: "approved",
+      // notification_url: 'https://eefb-84-77-121-226.ngrok-free.app/webhooks'
     };
 
     const preference = new Preference(client);
@@ -47,26 +47,29 @@ export const createPreference = async (req, res) => {
   }
 };
 
-export const recieveNotifications = (req, res) => {
-  try {
-    const notification = req.body;
+export const receiveNotification = (req, res) => {
+  console.log('Notificación recibidia!');
+  console.log(req);
 
-    switch (notification.type) {
-      case "payment":
-        // Procesar notificación de pago
-        break;
-      case "delivery":
-        // Procesar notificación del envío
-        break;
-      // Agregar más casos según sea necesario
-      default:
-        console.log(`Tipo de notificación desconocida: ${notification.type}`);
-    }
+  // try {
+  //   const notification = req.body;
 
-    // Responder con status 200 para confirmar la recepción
-    res.sendStatus(200);
-  } catch (error) {
-    console.log("Ha ocurrido un error en la operación");
-    console.log(error);
-  }
+  //   switch (notification.type) {
+  //     case "payment":
+  //       // Procesar notificación de pago
+  //       break;
+  //     case "delivery":
+  //       // Procesar notificación del envío
+  //       break;
+  //     // Agregar más casos según sea necesario
+  //     default:
+  //       console.log(`Tipo de notificación desconocida: ${notification.type}`);
+  //   }
+
+  //   // Responder con status 200 para confirmar la recepción
+  //   res.sendStatus(200);
+  // } catch (error) {
+  //   console.log("Ha ocurrido un error en la operación");
+  //   console.log(error);
+  // }
 };

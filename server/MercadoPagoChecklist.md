@@ -10,8 +10,8 @@ _Lista de buenas prácticas que aumentarán el puntaje de la evaluación sobre l
 [❌] Email del comprador.
 [❌] Nombre del comprador.
 [❌] Apellido del comprador.
-[❌] Categoría del item.
+[✅] Categoría del item.
 [✅] Descripción del item.
 [✅] Código del item.
 [✅] Nombre del item.
-[❌] SDK de backend.
+[❔] SDK de backend.
