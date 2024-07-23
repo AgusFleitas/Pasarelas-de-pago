@@ -98,6 +98,7 @@ export function CartProvider({ children }) {
       return {
         name: product.titulo,
         quantity: product.quantity,
+        category: product.categoria,
         price: product.precio,
         currency: "ARS",
         description: product.descripcion,
