@@ -36,19 +36,19 @@ const PayCart = () => {
             <div className='mt-auto flex flex-col gap-y-2'>
               <h4 className='font-semibold text-center'>Quiero pagar con:</h4>
               <Link
-                to='/confirm-and-pay'
+                to='/confirm-and-pay?gateway=mp'
                 className='text-center font-semibold py-2 rounded-md text-white bg-[#00B1EA] hover:scale-105 transition-transform'
               >
                 MercadoPago
               </Link>
               <Link
-                to='/confirm-and-pay'
+                to='/confirm-and-pay?gateway=pp'
                 className='text-center font-semibold py-2 rounded-md text-white bg-[#003087] hover:scale-105 transition-transform'
               >
                 PayPal
               </Link>
               <Link
-                to='/confirm-and-pay'
+                to='/confirm-and-pay?gateway=st'
                 className='text-center font-semibold py-2 rounded-md text-white bg-[#6772e5] hover:scale-105 transition-transform'
               >
                 Stripe
