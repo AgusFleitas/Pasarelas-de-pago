@@ -1,7 +1,7 @@
 const CatalogueCard = ({id, titulo, imagen, descripcion, precio, isInCart, buttonFunc}) => {
   
   return (
-    <article className='w-full border-2 border-emerald-600 rounded-md px-4 py-6 flex flex-col items-center gap-y-4 bg-white'>
+    <article className='w-full h-96 border-2 border-emerald-600 rounded-md px-4 pt-6 pb-4 flex flex-col items-center gap-y-2 bg-white'>
       <div className=' w-full h-32 bg-white p-2 rounded-md'>
         <img
           className=' w-full h-full object-contain'
