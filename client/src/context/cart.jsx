@@ -92,7 +92,7 @@ export function CartProvider({ children }) {
 
   const clearCart = () => dispatch({ type: "CLEAR_CART" });
 
-  // Funcion para crear la preferencia.
+  // Funcion para crear la preferencia con MercadoPago. 💙
   const createPreference = async () => {
     const cartItems = state.cart.map((product) => {
       return {
@@ -130,6 +130,42 @@ export function CartProvider({ children }) {
     }
   };
 
+  // Función para crear la orden de pago con PayPal. 🤍
+  const createOrderWithPayPal = async () => {
+    const cartItems = state.cart.map((product) => {
+      return {
+        name: product.titulo,
+        quantity: product.quantity,
+        category: product.categoria,
+        price: product.precio,
+        currency: "USD",
+        description: product.descripcion,
+        image: product.imagen,
+      };
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/create-payment",
+        {
+          items: cartItems,
+        },
+        
+      );
+
+      const { id } = response.data;
+      console.log("Este es el ID en createOrderWithPayPal: ", id);
+      dispatch({
+        type: 'SET_PREFERENCE_ID',
+        payload: id
+      })
+      return id;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -138,6 +174,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         clearCart,
         createPreference,
+        createOrderWithPayPal,
         preferenceId: state.preferenceId
       }}
     >
