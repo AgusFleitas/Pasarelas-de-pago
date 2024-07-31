@@ -4,5 +4,9 @@ config();
 export const PORT = 3000;
 export const HOST = "http://localhost:" + PORT;
 
-export const ACCESS_TOKEN_TEST = process.env.ACCESS_TOKEN_TEST;
-export const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+export const MP_ACCESS_TOKEN_TEST = process.env.MP_ACCESS_TOKEN_TEST;
+export const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN;
+
+export const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+export const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
+export const PAYPAL_API = "https://api-m.sandbox.paypal.com";

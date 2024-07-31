@@ -1,10 +1,18 @@
-import { MercadoPagoConfig, Preference } from "mercadopago";
-import { ACCESS_TOKEN_TEST } from "../config.js";
+import axios from 'axios';
 
+import { MercadoPagoConfig, Preference } from "mercadopago";
+import {
+  MP_ACCESS_TOKEN_TEST,
+  PAYPAL_CLIENT_ID,
+  PAYPAL_SECRET,
+  PAYPAL_API,
+} from "../config.js";
+
+// 💙 MercadoPago 💙
 export const createPreference = async (req, res) => {
   try {
     const client = new MercadoPagoConfig({
-      accessToken: ACCESS_TOKEN_TEST,
+      accessToken: MP_ACCESS_TOKEN_TEST,
     });
 
     const { products, reference } = req.body;
@@ -17,7 +25,7 @@ export const createPreference = async (req, res) => {
         currency_id: product.currency,
         description: product.description,
         category: product.category,
-        picture_url: product.image
+        picture_url: product.image,
       };
     });
 
@@ -31,7 +39,7 @@ export const createPreference = async (req, res) => {
         pending: "https://guitarflash.com/",
       },
       auto_return: "approved",
-      // notification_url: 'https://eefb-84-77-121-226.ngrok-free.app/webhooks'
+      // notification_url: 'https://4446-84-77-121-226.ngrok-free.app/webhooks'
     };
 
     const preference = new Preference(client);
@@ -48,8 +56,9 @@ export const createPreference = async (req, res) => {
 };
 
 export const receiveNotification = (req, res) => {
-  console.log('Notificación recibidia!');
-  console.log(req);
+  console.log("Notificación recibidia! 🤩");
+  const payment = req.query;
+  console.log(payment);
 
   // try {
   //   const notification = req.body;
@@ -72,4 +81,96 @@ export const receiveNotification = (req, res) => {
   //   console.log("Ha ocurrido un error en la operación");
   //   console.log(error);
   // }
+
+  res.sendStatus(200);
 };
+
+// 🤍 PayPal 🤍
+
+export const createPayment = async (req, res) => {
+  const { items } = req.body;
+
+  const itemList = items.map((item) => {
+    return {
+      name: item.name,
+      description: item.description,
+      quantity: item.quantity,
+      unit_amount: {
+        currency_code: item.currency,
+        value: item.price,
+      },
+    };
+  });
+
+  const itemsTotal = items.reduce((acc, item) => {
+    const itemPrice = parseFloat(item.price);
+    const quantity = parseInt(item.quantity);
+
+    return acc + itemPrice * quantity;
+  }, 0);
+
+  const order = {
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        items: itemList,
+        amount: {
+          currency_code: "USD",
+          value: itemsTotal.toFixed(2),
+          breakdown: {
+            item_total: {
+              currency_code: "USD",
+              value: itemsTotal.toFixed(2),
+            },
+          },
+        },
+      },
+    ],
+    payment_source: {
+      paypal: {
+        experience_context: {
+          brand_name: "Fleitas Shop",
+          landing_page: "NO_PREFERENCE",
+          user_action: "PAY_NOW",
+          return_url: `localhost:3000/payment-success`,
+          cancel_url: `localhost:3000/payment-cancel`,
+        },
+      },
+    },
+  };
+
+  const params = new URLSearchParams();
+  params.append("grant_type", "client_credentials");
+
+  const {
+    data: { access_token },
+  } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+    auth: {
+      username: PAYPAL_CLIENT_ID,
+      password: PAYPAL_SECRET,
+    },
+  });
+
+  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders`, order, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+
+  return res.json(response.data);
+};
+
+export const capturePayment = async (req, res) => {
+  const { token } = req.query
+
+  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
+    auth: {
+      username: PAYPAL_CLIENT_ID,
+      password: PAYPAL_SECRET
+    }
+  })
+
+  return res.json(response.data)
+}
+
+// 💜 Stripe 💜
