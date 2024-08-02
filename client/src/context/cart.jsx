@@ -154,7 +154,6 @@ export function CartProvider({ children }) {
       );
 
       const { id } = response.data;
-      console.log("Este es el ID en createOrderWithPayPal: ", id);
       dispatch({
         type: 'SET_PREFERENCE_ID',
         payload: id

@@ -32,7 +32,10 @@ const ConfirmAndPay = () => {
   const query = useQuery();
   const gateway = query.get("gateway");
 
-  console.log(gateway);
+  const styles = {
+    color: "blue",
+    label: "pay",
+  };
 
   //TODO Setear la preferencia en el localStorage
   //TODO Colocar un botón para volver al carrito.
@@ -49,6 +52,12 @@ const ConfirmAndPay = () => {
       }
     };
 
+    const getIdWithPayPal = async () => {
+      if (!isPreferenceCreated) await createOrderWithPayPal(cart);
+      setIsPreferenceCreated(true);
+      setIsLoading(false);
+    };
+
     // getPreferenceId();
 
     //? Dependiendo la query, trabajamos con una u otra pasarela de pagos.
@@ -57,42 +66,35 @@ const ConfirmAndPay = () => {
         getPreferenceId();
         break;
       case "pp":
-        setIsLoading(false);
+        getIdWithPayPal();
         break;
       case "st":
         createOrderWithStripe();
         break;
-      default: null
+      default:
+        null;
     }
-  }, [createPreference]);
+  }, [createPreference, createOrderWithPayPal, preferenceId]);
 
   return (
-    <section>
+    <section className='w-full flex flex-col justify-center items-center'>
       <PayPalScriptProvider options={{ clientId: clientId }}>
-        {/* {isLoading ? (
-        <p>Cargando...</p>
-      ) : (
-        <Wallet
-          initialization={{ preferenceId }}
-          customization={{ texts: { valueProp: "smart_option" } }}
-        />
-      )} */}
-        {isLoading && <p>Cargando...</p>}
         {gateway === "mp" ? (
           <Wallet
             initialization={{ preferenceId }}
             customization={{ texts: { valueProp: "smart_option" } }}
           />
         ) : null}
-        {gateway === "pp" ? 
-        <PayPalButtons 
-        createOrder={() => createOrderWithPayPal()}
-        onApprove={() => {
-          console.log("Pago exitoso! 🤍");
-        }}
-        onCancel={() => {}}
-        /> 
-        : null}
+        {gateway === "pp" && preferenceId && (
+          <PayPalButtons
+            style={styles}
+            createOrder={() => preferenceId}
+            onApprove={(data, actions) => {
+              actions.order.capture();
+            }}
+            onCancel={() => {}}
+          />
+        )}
       </PayPalScriptProvider>
     </section>
   );
