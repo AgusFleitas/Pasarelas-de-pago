@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { capturePayment, createPayment, createPreference, receiveNotification } from "../controllers/payment.controllers.js";
+import {createPayment, createPreference, receiveNotification } from "../controllers/payment.controllers.js";
 
 // Inicializamos el enrutador con el Router que importamos de Express.
 const router = Router();
@@ -15,6 +15,5 @@ router.post('/webhooks', receiveNotification)
 
 // PayPal.
 router.post("/create-payment", createPayment)
-router.get("/payment-success", capturePayment)
 
 export default router;

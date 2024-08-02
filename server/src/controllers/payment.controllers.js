@@ -160,17 +160,4 @@ export const createPayment = async (req, res) => {
   return res.json(response.data);
 };
 
-export const capturePayment = async (req, res) => {
-  const { token } = req.query
-
-  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
-    auth: {
-      username: PAYPAL_CLIENT_ID,
-      password: PAYPAL_SECRET
-    }
-  })
-
-  return res.json(response.data)
-}
-
 // 💜 Stripe 💜
