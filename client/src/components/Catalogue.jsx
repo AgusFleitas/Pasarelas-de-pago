@@ -10,7 +10,10 @@ const Catalogue = () => {
   };
 
   return (
-    <section className='mx-auto grid grid-cols-6 gap-x-2 gap-y-8 max-w-[1400px]'>
+    <section className='mx-auto grid
+    md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 
+    gap-x-2 gap-y-8 
+    xl:max-w-[1400px]'>
       {catalogue.map((product) => {
         const isProductInCar = checkProductInCart(product);
 
