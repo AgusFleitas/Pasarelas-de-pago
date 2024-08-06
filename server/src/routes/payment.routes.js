@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createPayment, createPreference, receiveNotification } from "../controllers/payment.controllers.js";
+import {createPayment, createPreference, createSession, receiveNotification } from "../controllers/payment.controllers.js";
 
 // Inicializamos el enrutador con el Router que importamos de Express.
 const router = Router();
@@ -16,4 +16,6 @@ router.post('/webhooks', receiveNotification)
 // PayPal.
 router.post("/create-payment", createPayment)
 
+// Stripe.
+router.post("/create-session", createSession)
 export default router;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Stripe from "stripe";
 
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import {
@@ -6,6 +7,7 @@ import {
   PAYPAL_CLIENT_ID,
   PAYPAL_SECRET,
   PAYPAL_API,
+  STRIPE_SECRET_KEY
 } from "../config.js";
 
 // 💙 MercadoPago 💙
@@ -132,8 +134,8 @@ export const createPayment = async (req, res) => {
           brand_name: "Fleitas Shop",
           landing_page: "NO_PREFERENCE",
           user_action: "PAY_NOW",
-          return_url: `localhost:3000/payment-success`,
-          cancel_url: `localhost:3000/payment-cancel`,
+          return_url: `localhost:5173/payment-success`,
+          cancel_url: `localhost:5173/payment-cancel`,
         },
       },
     },
@@ -161,3 +163,35 @@ export const createPayment = async (req, res) => {
 };
 
 // 💜 Stripe 💜
+
+const stripe = new Stripe(STRIPE_SECRET_KEY);
+
+export const createSession = async (req, res) => {
+  const { items } = req.body;
+
+  // Productos.
+  const lineItems = items.map((product) => {
+    return {
+      price_data: {
+        product_data: {
+          name: product.name,
+          description: product.description,
+        },
+        currency: product.currency,
+        unit_amount: product.price * 100, // Se multiplica por 100 para convertirlo a centavos debido a cómo opera Stripe.
+      },
+      quantity: product.quantity,
+    };
+  });
+
+  // Sesión.
+  const session = await stripe.checkout.sessions.create({
+    line_items: lineItems,
+    mode: "payment",
+    success_url: "http://localhost:5173/payment-success",
+    cancel_url: "http://localhost:5173/pay-cart",
+  });
+
+  // Retorno.
+  return res.json(session);
+}
