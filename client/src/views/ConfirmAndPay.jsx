@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -15,8 +15,13 @@ const clientId = import.meta.env.VITE_CLIENT_ID;
 
 const ConfirmAndPay = () => {
   // Traer el carrito del contexto con el Hook.
-  const { cart, createPreference, createOrderWithPayPal, preferenceId } =
-    useCart();
+  const {
+    cart,
+    createPreference,
+    createOrderWithPayPal,
+    createSessionWithStripe,
+    preferenceId,
+  } = useCart();
 
   // Estado para mostrar 'Cargando...' o para renderizar el botón.
   const [isLoading, setIsLoading] = useState(true);
@@ -53,12 +58,20 @@ const ConfirmAndPay = () => {
     };
 
     const getIdWithPayPal = async () => {
-      if (!isPreferenceCreated) await createOrderWithPayPal(cart);
-      setIsPreferenceCreated(true);
-      setIsLoading(false);
+      if (!isPreferenceCreated) {
+        await createOrderWithPayPal(cart);
+        setIsPreferenceCreated(true);
+        setIsLoading(false);
+      }
     };
 
-    // getPreferenceId();
+    const getSessionWithStripe = async () => {
+      if (!isPreferenceCreated) {
+        await createSessionWithStripe(cart);        
+        setIsPreferenceCreated(true);
+        setIsLoading(false);
+      }
+    };
 
     //? Dependiendo la query, trabajamos con una u otra pasarela de pagos.
     switch (gateway) {
@@ -69,7 +82,7 @@ const ConfirmAndPay = () => {
         getIdWithPayPal();
         break;
       case "st":
-        createOrderWithStripe();
+        getSessionWithStripe();
         break;
       default:
         null;
@@ -79,6 +92,7 @@ const ConfirmAndPay = () => {
   return (
     <section className='w-full flex flex-col justify-center items-center'>
       <PayPalScriptProvider options={{ clientId: clientId }}>
+        {!preferenceId && <p>Cargando...</p>}
         {gateway === "mp" ? (
           <Wallet
             initialization={{ preferenceId }}
@@ -96,6 +110,14 @@ const ConfirmAndPay = () => {
           />
         )}
       </PayPalScriptProvider>
+      {gateway === 'st' && preferenceId && (
+        <Link 
+        to={preferenceId}
+        className="bg-[#6772e5] w-72 text-center font-semibold py-3 rounded-md text-white hover:scale-105 transition-transform hover:bg-[#8890e9]"
+        >
+         Pagar con <span className="font-bold">Stripe</span>
+        </Link>
+      )}
     </section>
   );
 };

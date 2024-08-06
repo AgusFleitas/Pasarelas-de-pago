@@ -165,6 +165,41 @@ export function CartProvider({ children }) {
     }
   }
 
+  // Función para crear la sesión de Stripe. 💜
+  const createSessionWithStripe = async () => {
+    const cartItems = state.cart.map((product) => {
+      return {
+        name: product.titulo,
+        quantity: product.quantity,
+        category: product.categoria,
+        price: product.precio,
+        currency: "USD",
+        description: product.descripcion,
+        image: product.imagen,
+      };
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/create-session",
+        {
+          items: cartItems,
+        },
+        
+      );
+      
+      const url = response.data.url
+
+      dispatch({
+        type: 'SET_PREFERENCE_ID',
+        payload: url
+      })    
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -174,6 +209,7 @@ export function CartProvider({ children }) {
         clearCart,
         createPreference,
         createOrderWithPayPal,
+        createSessionWithStripe,
         preferenceId: state.preferenceId
       }}
     >
