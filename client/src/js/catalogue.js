@@ -14,7 +14,7 @@ export const catalogue = [
     descripcion:
       "Pantalones de mezclilla con corte regular, ideal para cualquier ocasión.",
     precio: 10.00,
-    imagen: 'https://res.cloudinary.com/dlahgnpwp/image/upload/v1720806900/pasarelas-de-pago/pceo9xuy63i9e5xsknuk.jpg',
+    imagen: 'https://res.cloudinary.com/dlahgnpwp/image/upload/v1722967779/pasarelas-de-pago/nbbrk8mryo7is5vaobuy.webp',
   },
   {
     id: 'qb64berhr',
