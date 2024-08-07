@@ -93,12 +93,12 @@ const ConfirmAndPay = () => {
     <section className='w-full flex flex-col justify-center items-center'>
       <PayPalScriptProvider options={{ clientId: clientId }}>
         {!preferenceId && <p>Cargando...</p>}
-        {gateway === "mp" ? (
+        {gateway === "mp" && preferenceId && (
           <Wallet
             initialization={{ preferenceId }}
             customization={{ texts: { valueProp: "smart_option" } }}
           />
-        ) : null}
+        )}
         {gateway === "pp" && preferenceId && (
           <PayPalButtons
             style={styles}
