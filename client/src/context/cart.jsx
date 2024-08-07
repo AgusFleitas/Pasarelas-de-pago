@@ -64,8 +64,12 @@ const reducer = (state, action) => {
       return initialState;
     }
 
-    case "SET_PREFERENCE_ID": {
+    case "SET_PREFERENCE_ID": {    
       return { ...state, preferenceId: actionPayload };
+    }
+
+    case "CLEAR_PREFERENCE_ID": {
+      return {...state, preferenceId: initialState.preferenceId}
     }
 
     default:
@@ -91,6 +95,8 @@ export function CartProvider({ children }) {
     });
 
   const clearCart = () => dispatch({ type: "CLEAR_CART" });
+
+  const clearPreferenceId = () => dispatch({ type: "CLEAR_PREFERENCE_ID" })
 
   // Funcion para crear la preferencia con MercadoPago. 💙
   const createPreference = async () => {
@@ -207,6 +213,7 @@ export function CartProvider({ children }) {
         addToCart,
         removeFromCart,
         clearCart,
+        clearPreferenceId,
         createPreference,
         createOrderWithPayPal,
         createSessionWithStripe,
