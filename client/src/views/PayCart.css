@@ -1,3 +1,14 @@
 #payment-modal::backdrop {
     background-color: rgba(0, 0, 0, .5);
 }
+
+.confirm-and-pay-button:disabled {
+    background-color: rgb(196, 196, 196);
+    cursor: not-allowed;
+}
+
+.confirm-and-pay-button:disabled:hover {
+    background-color: rgb(196, 196, 196);
+    transform: none;
+    
+}
