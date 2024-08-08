@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Navigate, useNavigate } from "react-router-dom";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -23,9 +23,6 @@ const ConfirmAndPay = () => {
     preferenceId,
   } = useCart();
 
-  // Estado para mostrar 'Cargando...' o para renderizar el botón.
-  const [isLoading, setIsLoading] = useState(true);
-
   // Estado para saber si la preferencia fue creada.
   const [isPreferenceCreated, setIsPreferenceCreated] = useState(false);
 
@@ -34,6 +31,8 @@ const ConfirmAndPay = () => {
     return new URLSearchParams(useLocation().search);
   };
 
+  const navigate = useNavigate();
+
   const query = useQuery();
   const gateway = query.get("gateway");
 
@@ -41,6 +40,13 @@ const ConfirmAndPay = () => {
     color: "blue",
     label: "pay",
   };
+
+  let totalPrice = 0;
+
+  // Bucle para obtener el precio total de todo el carrito.
+  cart.forEach((product) => {
+    totalPrice += product.precio * product.quantity;
+  });
 
   //TODO Setear la preferencia en el localStorage
   //TODO Colocar un botón para volver al carrito.
@@ -53,7 +59,6 @@ const ConfirmAndPay = () => {
       if (!isPreferenceCreated) {
         await createPreference(cart);
         setIsPreferenceCreated(true);
-        setIsLoading(false);
       }
     };
 
@@ -61,15 +66,13 @@ const ConfirmAndPay = () => {
       if (!isPreferenceCreated) {
         await createOrderWithPayPal(cart);
         setIsPreferenceCreated(true);
-        setIsLoading(false);
       }
     };
 
     const getSessionWithStripe = async () => {
       if (!isPreferenceCreated) {
-        await createSessionWithStripe(cart);        
+        await createSessionWithStripe(cart);
         setIsPreferenceCreated(true);
-        setIsLoading(false);
       }
     };
 
@@ -87,12 +90,26 @@ const ConfirmAndPay = () => {
       default:
         null;
     }
+
+    if (!gateway) {
+      navigate("/");
+    } null
   }, [createPreference, createOrderWithPayPal, preferenceId]);
 
   return (
     <section className='w-full flex flex-col justify-center items-center'>
+      <h1 className='font-bold text-4xl text-center mb-6'>Finaliza el pago</h1>
+      <div className='w-96 h-48 px-6 py-4 bg-white rounded-md border-2 border-sky-200/60 flex flex-col mb-8'>
+        <div className='w-full flex justify-between text-lg'>
+          <p>Monto final por tu compra:</p>
+          <span>${totalPrice.toFixed(2)}</span>
+        </div>
+        <span className='mt-auto text-center text-xl font-semibold opacity-40'>
+          ¡Gracias por elegirnos!
+        </span>
+      </div>
       <PayPalScriptProvider options={{ clientId: clientId }}>
-        {!preferenceId && <p>Cargando...</p>}
+        {!preferenceId && <p>Cargando método de pago...</p>}
         {gateway === "mp" && preferenceId && (
           <Wallet
             initialization={{ preferenceId }}
@@ -110,12 +127,12 @@ const ConfirmAndPay = () => {
           />
         )}
       </PayPalScriptProvider>
-      {gateway === 'st' && preferenceId && (
-        <Link 
-        to={preferenceId}
-        className="bg-[#6772e5] w-72 text-center font-semibold py-3 rounded-md text-white hover:scale-105 transition-transform hover:bg-[#8890e9]"
+      {gateway === "st" && preferenceId && (
+        <Link
+          to={preferenceId}
+          className='bg-[#6772e5] w-72 text-center font-semibold py-3 rounded-md text-white hover:scale-105 transition-transform hover:bg-[#8890e9'
         >
-         Pagar con <span className="font-bold">Stripe</span>
+          Pagar con <span className='font-bold'>Stripe</span>
         </Link>
       )}
     </section>
