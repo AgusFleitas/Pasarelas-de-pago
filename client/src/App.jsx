@@ -5,6 +5,7 @@ import Layout from "./components/Layout.jsx";
 import Header from "./components/Header.jsx";
 
 import Landing from "./views/Landing.jsx";
+import Credentials from "./views/Credentials.jsx";
 import PayCart from "./views/PayCart.jsx";
 import ConfirmAndPay from "./views/ConfirmAndPay.jsx";
 import PaySuccess from "./views/PaySuccess.jsx";
@@ -21,6 +22,7 @@ function App() {
         <main className='grid items-center px-44'>
           <Routes>
             <Route path='/' element={<Landing />} />
+            <Route path='/credentials' element={<Credentials />} />
             <Route path='/pay-cart' element={<PayCart />} />
             <Route path='/confirm-and-pay' element={<ConfirmAndPay />} />
             <Route path='/payment-success' element={<PaySuccess />} />
