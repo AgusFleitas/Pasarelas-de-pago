@@ -2,7 +2,8 @@ import { config } from "dotenv";
 config();
 
 export const PORT = 3000;
-export const HOST = "http://localhost:" + PORT;
+export const CLIENT_HOST = "http://localhost:5173";
+// export const CLIENT_HOST = 'https://urlsegura'
 
 export const MP_ACCESS_TOKEN_TEST = process.env.MP_ACCESS_TOKEN_TEST;
 export const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN;

@@ -3,6 +3,7 @@ import Stripe from "stripe";
 
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import {
+  CLIENT_HOST,
   MP_ACCESS_TOKEN_TEST,
   PAYPAL_CLIENT_ID,
   PAYPAL_SECRET,
@@ -36,9 +37,9 @@ export const createPreference = async (req, res) => {
       external_reference: reference,
       statement_descriptor: "AgusFleitas TestingShop",
       back_urls: {
-        success: "https://www.instagram.com/",
-        failure: "https://www.linkedin.com/feed/",
-        pending: "https://guitarflash.com/",
+        success: `${CLIENT_HOST}/payment-success`,
+        failure: `${CLIENT_HOST}/payment-cancel`,
+        pending: `${CLIENT_HOST}/payment-pending`,
       },
       auto_return: "approved",
       // notification_url: 'https://4446-84-77-121-226.ngrok-free.app/webhooks'
@@ -134,8 +135,8 @@ export const createPayment = async (req, res) => {
           brand_name: "Fleitas Shop",
           landing_page: "NO_PREFERENCE",
           user_action: "PAY_NOW",
-          return_url: `localhost:5173/payment-success`,
-          cancel_url: `localhost:5173/payment-cancel`,
+          return_url: `${CLIENT_HOST}/payment-success`,
+          cancel_url: `${CLIENT_HOST}/payment-cancel`,
         },
       },
     },
@@ -188,8 +189,8 @@ export const createSession = async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
-    success_url: "http://localhost:5173/payment-success",
-    cancel_url: "http://localhost:5173/pay-cart",
+    success_url: `${CLIENT_HOST}/payment-success`,
+    cancel_url: `${CLIENT_HOST}/payment-cancel`,
   });
 
   // Retorno.
