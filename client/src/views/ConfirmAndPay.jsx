@@ -93,7 +93,8 @@ const ConfirmAndPay = () => {
 
     if (!gateway) {
       navigate("/");
-    } null
+    }
+    null;
   }, [createPreference, createOrderWithPayPal, preferenceId]);
 
   return (
@@ -121,7 +122,14 @@ const ConfirmAndPay = () => {
             style={styles}
             createOrder={() => preferenceId}
             onApprove={(data, actions) => {
-              actions.order.capture();
+              actions.order
+                .capture()
+                .then(() => {
+                  actions.redirect("http://localhost:5173/payment-success");
+                })
+                .catch(() => {
+                  console.log('Hubo un error al confirmar el pago.');
+                });
             }}
             onCancel={() => {}}
           />
