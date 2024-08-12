@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Stripe from "stripe";
 
-import { MercadoPagoConfig, Preference } from "mercadopago";
+import { MercadoPagoConfig, Preference, Payment } from "mercadopago";
 import {
   CLIENT_HOST,
   MP_ACCESS_TOKEN_TEST,
@@ -22,6 +22,7 @@ export const createPreference = async (req, res) => {
 
     const itemList = products.map((product) => {
       return {
+        id: product.id,
         title: product.name,
         quantity: product.quantity,
         unit_price: product.price,
@@ -86,6 +87,28 @@ export const receiveNotification = (req, res) => {
   // }
 
   res.sendStatus(200);
+};
+
+export const getPaymentInfoMP = async (req, res) => {
+  try {
+    const client = new MercadoPagoConfig({
+      accessToken: MP_ACCESS_TOKEN_TEST,
+    });
+
+    const payment = new Payment(client);
+    const { paymentID } = req.body;
+
+    const response = await payment
+      .get({
+        id: paymentID,
+      })
+
+    res.json(response)
+  } catch (error) {
+    console.log("Ha ocurrido un error al obtener la información del pago");
+    console.log(error);
+    res.json(error)
+  }
 };
 
 // 🤍 PayPal 🤍
@@ -183,7 +206,7 @@ export const createSession = async (req, res) => {
       },
       quantity: product.quantity,
     };
-  });
+  });  
 
   // Sesión.
   const session = await stripe.checkout.sessions.create({
