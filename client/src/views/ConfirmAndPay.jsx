@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, Link, Navigate, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -122,10 +122,11 @@ const ConfirmAndPay = () => {
             style={styles}
             createOrder={() => preferenceId}
             onApprove={(data, actions) => {
+              console.log(data);
               actions.order
                 .capture()
                 .then(() => {
-                  actions.redirect("http://localhost:5173/payment-success");
+                  actions.redirect(`http://localhost:5173/payment-success?paymentID=${data.paymentID}`);
                 })
                 .catch(() => {
                   console.log('Hubo un error al confirmar el pago.');
