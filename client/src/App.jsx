@@ -11,6 +11,7 @@ import ConfirmAndPay from "./views/ConfirmAndPay.jsx";
 import PaySuccess from "./views/PaySuccess.jsx";
 import PayPending from "./views/PayPending.jsx";
 import PayFailed from "./views/PayFailed.jsx";
+import GetPayment from "./views/GetPayment.jsx";
 
 import "./App.css";
 
@@ -28,6 +29,7 @@ function App() {
             <Route path='/payment-success' element={<PaySuccess />} />
             <Route path='/payment-pending' element={<PayPending />} />
             <Route path='/payment-failed' element={<PayFailed />} />
+            <Route path='/get-payment-info' element={<GetPayment />} />
           </Routes>
         </main>
       </Layout>
