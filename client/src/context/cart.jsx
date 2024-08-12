@@ -102,6 +102,7 @@ export function CartProvider({ children }) {
   const createPreference = async () => {
     const cartItems = state.cart.map((product) => {
       return {
+        id: product.id,
         name: product.titulo,
         quantity: product.quantity,
         category: product.categoria,
@@ -135,6 +136,23 @@ export function CartProvider({ children }) {
       return null;
     }
   };
+
+  // Función para consultar pago con MercadoPago. 💙
+  const getPaymentInfoWithMP = async (paymentID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/get-payment-mercadopago",
+        {
+          paymentID
+        }
+      )
+
+      return response.data
+    } catch (error) {
+      console.error(error);
+      return null
+    }
+  }
 
   // Función para crear la orden de pago con PayPal. 🤍
   const createOrderWithPayPal = async () => {
@@ -194,6 +212,8 @@ export function CartProvider({ children }) {
         
       );
       
+      console.log(response.data);
+      
       const url = response.data.url
 
       dispatch({
@@ -215,6 +235,7 @@ export function CartProvider({ children }) {
         clearCart,
         clearPreferenceId,
         createPreference,
+        getPaymentInfoWithMP,
         createOrderWithPayPal,
         createSessionWithStripe,
         preferenceId: state.preferenceId
