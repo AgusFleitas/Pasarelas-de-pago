@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createPayment, createPreference, createSession, getPaymentInfoMP, receiveNotification } from "../controllers/payment.controllers.js";
+import {createPayment, createPreference, createSession, getPaymentInfoMP, getPaymentInfoPP, receiveNotification } from "../controllers/payment.controllers.js";
 
 // Inicializamos el enrutador con el Router que importamos de Express.
 const router = Router();
@@ -16,6 +16,7 @@ router.post('/get-payment-mercadopago', getPaymentInfoMP)
 
 // PayPal.
 router.post("/create-payment", createPayment)
+router.post("/get-payment-paypal", getPaymentInfoPP)
 
 // Stripe.
 router.post("/create-session", createSession)

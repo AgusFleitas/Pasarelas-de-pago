@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import Stripe from "stripe";
 
 import { MercadoPagoConfig, Preference, Payment } from "mercadopago";
@@ -8,7 +8,7 @@ import {
   PAYPAL_CLIENT_ID,
   PAYPAL_SECRET,
   PAYPAL_API,
-  STRIPE_SECRET_KEY
+  STRIPE_SECRET_KEY,
 } from "../config.js";
 
 // 💙 MercadoPago 💙
@@ -98,16 +98,15 @@ export const getPaymentInfoMP = async (req, res) => {
     const payment = new Payment(client);
     const { paymentID } = req.body;
 
-    const response = await payment
-      .get({
-        id: paymentID,
-      })
+    const response = await payment.get({
+      id: paymentID,
+    });
 
-    res.json(response)
+    res.json(response);
   } catch (error) {
     console.log("Ha ocurrido un error al obtener la información del pago");
     console.log(error);
-    res.json(error)
+    res.json(error);
   }
 };
 
@@ -186,6 +185,40 @@ export const createPayment = async (req, res) => {
   return res.json(response.data);
 };
 
+export const getPaymentInfoPP = async (req, res) => {
+  const { paymentID } = req.body;
+  console.log('Esto llega al backend', paymentID);
+  
+
+  try {
+    const params = new URLSearchParams();
+    params.append("grant_type", "client_credentials");
+
+    const {
+      data: { access_token },
+    } = await axios.post(`${PAYPAL_API}/v1/oauth2/token`, params, {
+      auth: {
+        username: PAYPAL_CLIENT_ID,
+        password: PAYPAL_SECRET,
+      },
+    });
+
+    const response = await axios.get(
+      `https://api-m.sandbox.paypal.com/v2/checkout/orders/${paymentID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    
+    return res.json(response.data);
+  } catch (error) {
+    console.log("Ha ocurrido un error al obtener la información del pago");
+    console.log(error);
+  }
+};
+
 // 💜 Stripe 💜
 
 const stripe = new Stripe(STRIPE_SECRET_KEY);
@@ -206,7 +239,7 @@ export const createSession = async (req, res) => {
       },
       quantity: product.quantity,
     };
-  });  
+  });
 
   // Sesión.
   const session = await stripe.checkout.sessions.create({
@@ -218,4 +251,4 @@ export const createSession = async (req, res) => {
 
   // Retorno.
   return res.json(session);
-}
+};
