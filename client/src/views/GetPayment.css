@@ -1,13 +1,11 @@
 .payment-result {
-    animation: slideout;
-    animation-duration: 150ms;
-    animation-timing-function: ease-in;
-    animation-fill-mode: forwards;
+  animation: fadeout;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 }
 
-@keyframes slideout {
-    to {
-        transform: translateX(-100vw);
-        opacity: 0%;
-    }
+@keyframes fadeout {
+  to {
+    display: none;
+  }
 }

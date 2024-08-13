@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react";
 import { catalogue } from "../js/catalogue";
 import generateRandomRef from "../hooks/randomRef";
 
-import axios from 'axios'
+import axios from "axios";
 
 // 1. Crear contexto.
 export const CartContext = createContext();
@@ -52,24 +52,24 @@ const reducer = (state, action) => {
 
     case "REMOVE_FROM_CART": {
       const { id } = actionPayload;
-      const filteredCart = state.cart.filter((item) => item.id != id)
+      const filteredCart = state.cart.filter((item) => item.id != id);
 
       return {
         ...state,
-        cart: filteredCart
-      }
+        cart: filteredCart,
+      };
     }
 
     case "CLEAR_CART": {
       return initialState;
     }
 
-    case "SET_PREFERENCE_ID": {    
+    case "SET_PREFERENCE_ID": {
       return { ...state, preferenceId: actionPayload };
     }
 
     case "CLEAR_PREFERENCE_ID": {
-      return {...state, preferenceId: initialState.preferenceId}
+      return { ...state, preferenceId: initialState.preferenceId };
     }
 
     default:
@@ -96,7 +96,7 @@ export function CartProvider({ children }) {
 
   const clearCart = () => dispatch({ type: "CLEAR_CART" });
 
-  const clearPreferenceId = () => dispatch({ type: "CLEAR_PREFERENCE_ID" })
+  const clearPreferenceId = () => dispatch({ type: "CLEAR_PREFERENCE_ID" });
 
   // Funcion para crear la preferencia con MercadoPago. 💙
   const createPreference = async () => {
@@ -120,16 +120,15 @@ export function CartProvider({ children }) {
         "http://localhost:3000/create-preference",
         {
           products: cartItems,
-          reference: randomExternalRef
-        },
-        
+          reference: randomExternalRef,
+        }
       );
 
       const { id } = response.data;
       dispatch({
-        type: 'SET_PREFERENCE_ID',
-        payload: id
-      })
+        type: "SET_PREFERENCE_ID",
+        payload: id,
+      });
       return id;
     } catch (error) {
       console.error(error);
@@ -143,16 +142,16 @@ export function CartProvider({ children }) {
       const response = await axios.post(
         "http://localhost:3000/get-payment-mercadopago",
         {
-          paymentID
+          paymentID,
         }
-      )
+      );
 
-      return response.data
+      return response.data;
     } catch (error) {
       console.error(error);
-      return null
+      return null;
     }
-  }
+  };
 
   // Función para crear la orden de pago con PayPal. 🤍
   const createOrderWithPayPal = async () => {
@@ -173,21 +172,36 @@ export function CartProvider({ children }) {
         "http://localhost:3000/create-payment",
         {
           items: cartItems,
-        },
-        
+        }
       );
 
       const { id } = response.data;
       dispatch({
-        type: 'SET_PREFERENCE_ID',
-        payload: id
-      })
+        type: "SET_PREFERENCE_ID",
+        payload: id,
+      });
       return id;
     } catch (error) {
       console.error(error);
       return null;
     }
-  }
+  };
+
+  const getPaymentInfoWithPP = async (paymentID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/get-payment-paypal",
+        {
+          paymentID,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   // Función para crear la sesión de Stripe. 💜
   const createSessionWithStripe = async () => {
@@ -208,23 +222,22 @@ export function CartProvider({ children }) {
         "http://localhost:3000/create-session",
         {
           items: cartItems,
-        },
-        
+        }
       );
-      
+
       console.log(response.data);
-      
-      const url = response.data.url
+
+      const url = response.data.url;
 
       dispatch({
-        type: 'SET_PREFERENCE_ID',
-        payload: url
-      })    
+        type: "SET_PREFERENCE_ID",
+        payload: url,
+      });
     } catch (error) {
       console.error(error);
       return null;
     }
-  }
+  };
 
   return (
     <CartContext.Provider
@@ -237,8 +250,9 @@ export function CartProvider({ children }) {
         createPreference,
         getPaymentInfoWithMP,
         createOrderWithPayPal,
+        getPaymentInfoWithPP,
         createSessionWithStripe,
-        preferenceId: state.preferenceId
+        preferenceId: state.preferenceId,
       }}
     >
       {children}
