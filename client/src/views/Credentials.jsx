@@ -27,7 +27,7 @@ const Credentials = () => {
             <p>
               Puede que al momento de finalizar el pago, se solicite un código
               enviado a través de correo electrónico. En ese caso utiliza los
-              siguiente números:{" "}
+              siguiente números:
             </p>
           </div>
           <p className='text-xl text-center font-semibold'>078071</p>
