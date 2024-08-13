@@ -126,7 +126,7 @@ const ConfirmAndPay = () => {
               actions.order
                 .capture()
                 .then(() => {
-                  actions.redirect(`http://localhost:5173/payment-success?paymentID=${data.paymentID}`);
+                  actions.redirect(`http://localhost:5173/payment-success?payment_id=${data.orderID}`);
                 })
                 .catch(() => {
                   console.log('Hubo un error al confirmar el pago.');
