@@ -187,7 +187,7 @@ export const createPayment = async (req, res) => {
 };
 
 export const getPaymentInfoPP = async (req, res) => {
-  const { paymentID } = req.body; 
+  const { paymentID } = req.body;
 
   try {
     const params = new URLSearchParams();
@@ -210,7 +210,7 @@ export const getPaymentInfoPP = async (req, res) => {
         },
       }
     );
-    
+
     return res.json(response.data);
   } catch (error) {
     console.log("Ha ocurrido un error al obtener la información del pago");
@@ -246,10 +246,25 @@ export const createSession = async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
-    success_url: `${CLIENT_HOST}/payment-success`,
+    success_url: `${CLIENT_HOST}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${CLIENT_HOST}/payment-cancel`,
   });
 
   // Retorno.
   return res.json(session);
+};
+
+export const retrieveSession = async (req, res) => {
+  const { sessionID } = req.body;
+
+  try {
+    const retrievedSession = await stripe.checkout.sessions.retrieve(sessionID);
+
+    res.json(retrievedSession);
+  } catch (error) {
+    console.log("Ha ocurrido un error al intentar recuperar la sesión");
+    console.error(error.message);
+
+    res.json(error.message);
+  }
 };
