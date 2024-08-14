@@ -105,8 +105,9 @@ export const getPaymentInfoMP = async (req, res) => {
     res.json(response);
   } catch (error) {
     console.log("Ha ocurrido un error al obtener la información del pago");
-    console.log(error);
-    res.json(error);
+    console.error(error.message);
+
+    res.json(error.message);
   }
 };
 
@@ -186,9 +187,7 @@ export const createPayment = async (req, res) => {
 };
 
 export const getPaymentInfoPP = async (req, res) => {
-  const { paymentID } = req.body;
-  console.log('Esto llega al backend', paymentID);
-  
+  const { paymentID } = req.body; 
 
   try {
     const params = new URLSearchParams();
@@ -215,7 +214,9 @@ export const getPaymentInfoPP = async (req, res) => {
     return res.json(response.data);
   } catch (error) {
     console.log("Ha ocurrido un error al obtener la información del pago");
-    console.log(error);
+    console.error(error.message);
+
+    res.json(error.message);
   }
 };
 
