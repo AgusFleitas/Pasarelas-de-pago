@@ -188,7 +188,7 @@ export function CartProvider({ children }) {
     }
   };
 
-   // Función para consultar pago con PayPal. 🤍
+  // Función para consultar pago con PayPal. 🤍
   const getPaymentInfoWithPP = async (paymentID) => {
     try {
       const response = await axios.post(
@@ -241,24 +241,22 @@ export function CartProvider({ children }) {
     }
   };
 
- // Función para recuperar la sesión de un pago con Stripe. 💜
- const retrieveSessionWithStripe = async (sessionID) => {
-  try {
-    const response = await axios.post(
-      'http://localhost:3000/retrieve-stripe-session',
-      {
-        sessionID
-      }
-    );
+  // Función para recuperar la sesión de un pago con Stripe. 💜
+  const retrieveSessionWithStripe = async (sessionID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/retrieve-stripe-session",
+        {
+          sessionID,
+        }
+      );
 
-    return response.data.payment_intent
-    
-  } catch (error) {
-    console.error(error)
-    return null
-  }
- }
-
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   return (
     <CartContext.Provider

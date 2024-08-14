@@ -3,6 +3,7 @@ import useCart from "../hooks/useCart";
 
 import PaymentInfoMP from "../components/PaymentInfoMP";
 import PaymentInfoPP from "../components/PaymentInfoPP";
+import PaymentInfoST from "../components/PaymentInfoST";
 
 import mercadoPago from "../img/MercadoPago.webp";
 import payPal from "../img/PayPal.webp";
@@ -11,14 +12,15 @@ import stripe from "../img/Stripe.webp";
 import "./GetPayment.css";
 
 const GetPayment = () => {
-  const { getPaymentInfoWithMP, getPaymentInfoWithPP } = useCart();
+  const { getPaymentInfoWithMP, getPaymentInfoWithPP, retrieveSessionWithStripe } =
+    useCart();
 
   const [paymentInfo, setPaymentInfo] = useState(null);
 
   const [form, setForm] = useState({
     paymentId: "",
     paymentMethod: null,
-  });
+  });  
 
   // Manejador PaymentID
   const handlePaymentId = (event) => {
@@ -56,10 +58,22 @@ const GetPayment = () => {
         idsection.classList.add("payment-result");
 
         setPaymentInfo(paymentInfo);
-        console.log(paymentInfo);
-        
         break;
       }
+
+      case "stripe": {
+        const paymentInfo =  await retrieveSessionWithStripe(form.paymentId);
+
+        const idsection = document.getElementById("check-payment");
+        idsection.classList.add("payment-result");
+
+        setPaymentInfo(paymentInfo);
+        break;
+      }
+
+      default:
+        console.log("Método de pago no reconocido");
+        return null;
     }
   };
 
@@ -81,7 +95,7 @@ const GetPayment = () => {
     );
 
     return formattedDate;
-  };
+  };  
 
   return (
     <section className='flex flex-col items-center'>
@@ -174,10 +188,11 @@ const GetPayment = () => {
           </div>
           <button
             className='confirm-button bg-sky-300/60 rounded-md py-2 font-semibold hover:bg-yellow-400 hover:scale-105 transition-transform'
-            title={!form.paymentId || !form.paymentMethod ?
-              'Debes completar todos los campos para realizar una consulta.' :
-              'Confirmar y realizar la consulta.'
-             }
+            title={
+              !form.paymentId || !form.paymentMethod
+                ? "Debes completar todos los campos para realizar una consulta."
+                : "Confirmar y realizar la consulta."
+            }
             onClick={handleButtonConfirm}
             disabled={!form.paymentId || !form.paymentMethod}
           >
@@ -196,6 +211,12 @@ const GetPayment = () => {
           <PaymentInfoPP
             paymentInfo={paymentInfo}
             transformDate={transformDate}
+            handleTurnBack={handleTurnBack}
+          />
+        )}
+        {paymentInfo && form.paymentMethod === "stripe" && (
+          <PaymentInfoST
+            paymentInfo={paymentInfo}
             handleTurnBack={handleTurnBack}
           />
         )}
