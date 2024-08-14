@@ -1,14 +1,33 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import useCart from "../hooks/useCart";
 import success from "../img/success.webp";
 
 const PaySuccess = () => {
+  const { retrieveSessionWithStripe } = useCart();
+
+  // Creo un elemento URLSearchParams para obtener la query.
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
 
   const query = useQuery();
-  const paymentID = query.get("payment_id");
+
+  // Estado para almacenar el PaymentID.
+  const [paymentID, setPaymentID] = useState(null);
+
+  useEffect(() => {
+    const retrieveSession = async (sessionID) => {
+      setPaymentID(await retrieveSessionWithStripe(sessionID))
+    };
+
+    if (query.get("session_id")) {
+      const sessionID = query.get("session_id");
+
+      retrieveSession(sessionID);
+    } setPaymentID(query.get("payment_id"));
+  }, []);
 
   return (
     <section className='flex flex-col justify-center items-center'>
@@ -22,13 +41,14 @@ const PaySuccess = () => {
           alt="Ilustración del símbolo 'correcto' que representa el pago con éxito."
         />
         {paymentID && (
-          <div className="flex flex-col items-center gap-y-2 mb-8">
-            <p className='text-2xl'>
-              Payment ID: <strong>{paymentID}</strong>
-            </p>
-            <p className="text-center text-sm text-pretty">
+          <div className='flex flex-col items-center gap-y-2 mb-8'>
+            <div className='flex flex-col items-center text-xl gap-y-1'>
+              Payment ID: <strong className="bg-sky-200/50 py-1 px-2 rounded-md">{paymentID}</strong>
+            </div>
+            <p className='text-center text-sm text-pretty'>
               Este código te servirá para consultar información sobre el pago
-              que acabas de realizar. Puedes copiarlo para realizar la consulta en la otra pestaña.
+              que acabas de realizar. Puedes copiarlo para realizar la consulta
+              en la pestaña de 'Consultar pago'.
             </p>
           </div>
         )}
