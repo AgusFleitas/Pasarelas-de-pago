@@ -4,6 +4,7 @@ import useCart from "../hooks/useCart";
 import PaymentInfoMP from "../components/PaymentInfoMP";
 import PaymentInfoPP from "../components/PaymentInfoPP";
 import PaymentInfoST from "../components/PaymentInfoST";
+import NotFoundModal from "../components/NotFoundModal";
 
 import mercadoPago from "../img/MercadoPago.webp";
 import payPal from "../img/PayPal.webp";
@@ -16,6 +17,7 @@ const GetPayment = () => {
     useCart();
 
   const [paymentInfo, setPaymentInfo] = useState(null);
+  const [infoNotFound, setInfoNotFound] = useState(false)
 
   const [form, setForm] = useState({
     paymentId: "",
@@ -44,30 +46,45 @@ const GetPayment = () => {
       case "mercadopago": {
         const paymentInfo = await getPaymentInfoWithMP(form.paymentId);
 
-        const idsection = document.getElementById("check-payment");
-        idsection.classList.add("payment-result");
-
-        setPaymentInfo(paymentInfo);
+        if (paymentInfo.id) {
+          const idsection = document.getElementById("check-payment");
+          idsection.classList.add("payment-result");
+  
+          setPaymentInfo(paymentInfo);
+        } else {
+          setInfoNotFound(true);
+        }
         break;
       }
 
       case "paypal": {
         const paymentInfo = await getPaymentInfoWithPP(form.paymentId);
 
-        const idsection = document.getElementById("check-payment");
-        idsection.classList.add("payment-result");
+        if (paymentInfo.id) {
 
-        setPaymentInfo(paymentInfo);
+          const idsection = document.getElementById("check-payment");
+          idsection.classList.add("payment-result");
+  
+          setPaymentInfo(paymentInfo);
+        } else {
+          setInfoNotFound(true);
+        }
+
         break;
       }
 
       case "stripe": {
         const paymentInfo =  await retrieveSessionWithStripe(form.paymentId);
 
-        const idsection = document.getElementById("check-payment");
-        idsection.classList.add("payment-result");
+        if (paymentInfo.retrievedSession) {          
+          const idsection = document.getElementById("check-payment");
+          idsection.classList.add("payment-result");
+  
+          setPaymentInfo(paymentInfo);
+        } else {
+          setInfoNotFound(true);
+        }
 
-        setPaymentInfo(paymentInfo);
         break;
       }
 
@@ -221,6 +238,8 @@ const GetPayment = () => {
           />
         )}
       </article>
+      {infoNotFound && <NotFoundModal closeFunc={() => setInfoNotFound(false)} />}
+      
     </section>
   );
 };
