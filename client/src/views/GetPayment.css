@@ -4,6 +4,16 @@
   animation-fill-mode: forwards;
 }
 
+.confirm-button:disabled {
+  background-color: rgb(196, 196, 196);
+  cursor: not-allowed;
+}
+
+.confirm-button:disabled:hover {
+  background-color: rgb(196, 196, 196);
+  transform: none;
+}
+
 @keyframes fadeout {
   to {
     display: none;

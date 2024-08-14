@@ -146,6 +146,7 @@ export function CartProvider({ children }) {
         }
       );
 
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);

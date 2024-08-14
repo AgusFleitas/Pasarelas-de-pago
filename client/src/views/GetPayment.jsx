@@ -46,6 +46,7 @@ const GetPayment = () => {
         idsection.classList.add("payment-result");
 
         setPaymentInfo(paymentInfo);
+        break;
       }
 
       case "paypal": {
@@ -55,6 +56,9 @@ const GetPayment = () => {
         idsection.classList.add("payment-result");
 
         setPaymentInfo(paymentInfo);
+        console.log(paymentInfo);
+        
+        break;
       }
     }
   };
@@ -169,9 +173,13 @@ const GetPayment = () => {
             </div>
           </div>
           <button
-            className='bg-sky-300/60 rounded-md py-2 font-semibold hover:bg-yellow-400 hover:scale-105 transition-transform'
-            title='Confirmar y realizar la consulta.'
+            className='confirm-button bg-sky-300/60 rounded-md py-2 font-semibold hover:bg-yellow-400 hover:scale-105 transition-transform'
+            title={!form.paymentId || !form.paymentMethod ?
+              'Debes completar todos los campos para realizar una consulta.' :
+              'Confirmar y realizar la consulta.'
+             }
             onClick={handleButtonConfirm}
+            disabled={!form.paymentId || !form.paymentMethod}
           >
             Obtener información
           </button>
