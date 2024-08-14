@@ -31,8 +31,8 @@ const PaymentInfoPP = ({ paymentInfo, transformDate, handleTurnBack }) => {
           <p>{paymentInfo.id}</p>
         </div>
         <div className='flex justify-between'>
-          <p className='font-semibold'>Fecha de creación del pago:</p>
-          <p>{transformDate(paymentInfo.create_time)}</p>
+          <p className='font-semibold'>Última actualización del pago:</p>
+          <p>{transformDate(paymentInfo.update_time)}</p>
         </div>
         <div className='flex justify-between'>
           <p className='font-semibold'>Moneda:</p>
