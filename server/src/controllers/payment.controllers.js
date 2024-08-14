@@ -259,8 +259,9 @@ export const retrieveSession = async (req, res) => {
 
   try {
     const retrievedSession = await stripe.checkout.sessions.retrieve(sessionID);
+    const retrievedItems = await stripe.checkout.sessions.listLineItems(sessionID);
 
-    res.json(retrievedSession);
+    res.json({retrievedSession, retrievedItems});
   } catch (error) {
     console.log("Ha ocurrido un error al intentar recuperar la sesión");
     console.error(error.message);
