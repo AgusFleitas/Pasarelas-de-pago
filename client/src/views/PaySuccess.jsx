@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import useCart from "../hooks/useCart";
+
 import success from "../img/success.webp";
 
 const PaySuccess = () => {
@@ -11,6 +13,8 @@ const PaySuccess = () => {
 
   const query = useQuery();
 
+  const { clearCart } = useCart();
+
   // Estado para almacenar el PaymentID.
   const [paymentID, setPaymentID] = useState(null);
 
@@ -20,6 +24,8 @@ const PaySuccess = () => {
     } else if (query.has("payment_id")) {
       setPaymentID(query.get("payment_id"));
     }
+
+    clearCart();
   }, []);
 
   return (
