@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useCart from "../hooks/useCart";
 
 import PaymentInfoMP from "../components/PaymentInfoMP";
@@ -22,7 +22,20 @@ const GetPayment = () => {
   const [form, setForm] = useState({
     paymentId: "",
     paymentMethod: null,
-  });  
+  });
+  
+  // useEffect para desactivar el scroll cuando el modal está abierto.
+  useEffect(() => {
+    if (infoNotFound) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [infoNotFound]);
 
   // Manejador PaymentID
   const handlePaymentId = (event) => {
