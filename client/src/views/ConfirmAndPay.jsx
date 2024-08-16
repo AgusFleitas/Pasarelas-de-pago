@@ -123,14 +123,14 @@ const ConfirmAndPay = () => {
               actions.order
                 .capture()
                 .then(() => {
-                  actions.redirect(`http://localhost:5173/payment-success?payment_id=${data.orderID}`);
+                  actions.redirect(`https://pasarelas-de-pago-agustin-fleitas.vercel.app/payment-success?payment_id=${data.orderID}`);
                 })
                 .catch(() => {
-                  actions.redirect(`http://localhost:5173/payment-failed`);
+                  actions.redirect(`https://pasarelas-de-pago-agustin-fleitas.vercel.app/payment-failed`);
                 });
             }}
             onCancel={(_, actions) => {
-              actions.redirect(`http://localhost:5173/payment-failed`);
+              actions.redirect(`https://pasarelas-de-pago-agustin-fleitas.vercel.app/payment-failed`);
             }}
           />
         )}
