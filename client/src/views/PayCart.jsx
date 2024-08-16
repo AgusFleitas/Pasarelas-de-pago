@@ -39,12 +39,12 @@ const PayCart = () => {
   return (
     <section className='flex flex-col justify-center'>
       <h1 className='font-bold text-4xl text-center mb-1'>Tu carrito</h1>
-      <h2 className='text-center text-balance mb-8 max-w-[72rem] self-center'>
+      <h2 className='text-center text-balance mb-8 lg:max-w-[72rem] self-center'>
         Verifica los productos en tu carrito, puedes agregar unidades
         adicionales de cualquier producto o eliminarlos del carrito. Luego
         presiona 'Confirmar y pagar' y selecciona tu método de pago favorito.
       </h2>
-      <div className='flex w-full justify-center gap-x-20'>
+      <div className='flex flex-col gap-y-8 lg:flex-row w-full justify-center gap-x-20'>
         {cart.length > 0 ? (
           <ul className='flex flex-col gap-y-4'>
             {cart.map((product) => (
@@ -57,7 +57,7 @@ const PayCart = () => {
             ))}
           </ul>
         ) : (
-          <div className='max-w-[40rem] flex flex-col justify-center'>
+          <div className='lg:max-w-[40rem] flex flex-col justify-center'>
             <span className='text-4xl font-bold text-zinc-500/40 text-center text-balance  leading-snug'>
               ¡Tu carrito está vacío! Explora el catálogo en la página de
               inicio.
@@ -69,7 +69,7 @@ const PayCart = () => {
             />
           </div>
         )}
-        <aside className='flex flex-col gap-y-2 border-2 border-black bg-white shadow-md shadow-gray-400 rounded-md py-4 px-6 w-96 h-[32rem]'>
+        <aside className='self-center lg:self-auto flex flex-col gap-y-2 border-2 border-black bg-white shadow-md shadow-gray-400 rounded-md py-4 px-6 w-full md:w-96 h-[32rem]'>
           <h4 className='font-semibold text-2xl text-center'>Resumen</h4>
           <div className='w-full flex justify-between text-lg'>
             <p>Total por productos:</p>
@@ -102,7 +102,7 @@ const PayCart = () => {
         </aside>
         <dialog
           id='payment-modal'
-          className='relative w-[42rem] h-72 m-auto rounded-md shadow-lg shadow-black'
+          className='relative w-[42rem] h-80 md:h-72 m-auto rounded-md shadow-lg shadow-black py-4'
         >
           <div className='size-full flex flex-col px-6'>
             <strong className='text-center text-xl my-6'>
@@ -111,7 +111,7 @@ const PayCart = () => {
             <button
               title='Cerrar y volver.'
               id='close-modal'
-              className='absolute text-xl font-black text-black top-4 right-6 hover:scale-125 hover:text-red-500 transition-transform'
+              className='absolute text-xl font-black text-black top-2 right-4 md:top-4 md:right-6 hover:scale-125 hover:text-red-500 transition-transform'
               onClick={closeModal}
             >
               ✖

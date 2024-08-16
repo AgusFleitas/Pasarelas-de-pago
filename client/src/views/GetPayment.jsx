@@ -116,16 +116,16 @@ const GetPayment = () => {
 
   return (
     <section className='flex flex-col items-center'>
-      <h1 className='font-bold text-4xl text-center mb-1'>
+      <h1 className='font-bold text-4xl text-center text-balance mb-4 md:mb-1'>
         Obtener información de un pago
       </h1>
-      <h2 className='text-center text-balance mb-8 max-w-[72rem] self-center'>
+      <h2 className='text-center text-balance mb-8 md:max-w-[72rem] self-center'>
         Aquí podrás consultar información sobre los pagos que hayas realizado. A
         través del Payment ID (ID de la operación) podrás verificar que el pago
         ha sido concretado y leer los detalles sobre la transacción.
       </h2>
 
-      <article className='border-2 border-sky-200 rounded-md py-4 px-6 w-[36rem] bg-white shadow-md shadow-gray-400'>
+      <article className='border-2 border-sky-200 rounded-md py-4 px-6 mb-8 w-full md:w-[36rem] bg-white shadow-md shadow-gray-400'>
         <article id='check-payment' className=' flex flex-col gap-y-4'>
           <h4 className='text-center font-semibold text-xl'>
             Consultar un pago

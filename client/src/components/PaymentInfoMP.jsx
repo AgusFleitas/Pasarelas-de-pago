@@ -26,23 +26,23 @@ const PaymentInfoMP = ({ paymentInfo, transformDate, handleTurnBack }) => {
       <h4 className='text-center font-semibold text-xl mb-10'>
         Detalles sobre tu pago:
       </h4>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>ID de la operación:</p>
         <p>{paymentInfo.id}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Fecha de creación del pago:</p>
         <p>{transformDate(paymentInfo.date_created)}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Fecha de aprobación del pago:</p>
         <p>{transformDate(paymentInfo.date_approved)}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Moneda:</p>
         <p>{paymentInfo.currency_id}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Monto total de la compra:</p>
         <p>${parseInt(paymentInfo.transaction_amount).toFixed(2)}</p>
       </div>
@@ -59,11 +59,11 @@ const PaymentInfoMP = ({ paymentInfo, transformDate, handleTurnBack }) => {
           ))}
         </ul>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Correo del pagador:</p>
-        <p>{paymentInfo.payer.email}</p>
+        <p className="truncate">{paymentInfo.payer.email}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Nombre:</p>
         {paymentInfo.payer.first_name ? (
           <p>{paymentInfo.payer.first_name}</p>
@@ -71,7 +71,7 @@ const PaymentInfoMP = ({ paymentInfo, transformDate, handleTurnBack }) => {
           <p>-</p>
         )}
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Apellido:</p>
         {paymentInfo.payer.last_name ? (
           <p>{paymentInfo.payer.last_name}</p>

@@ -7,13 +7,13 @@ const CartItem = ({
   removeFromCart,
 }) => {
   return (
-    <li className='bg-white w-[40rem] border-2 border-sky-200/60 flex justify-between items-center gap-x-2 px-4 rounded-md shadow-md shadow-gray-400'>
+    <li className='bg-white md:w-[40rem] border-2 border-sky-200/60 flex flex-col md:flex-row justify-between items-center gap-y-2 gap-x-2 py-2 md:py-0 px-4 rounded-md shadow-md shadow-gray-400'>
       <img className='size-20 object-contain p-2' src={imagen} alt={titulo} />
-      <div className='flex justify-between w-48'>
-        <p>{titulo}</p> |
+      <div className='flex justify-between md:w-48'>
+        <p>{titulo}</p>
       </div>
-      <span className='font-semibold'>${precio.toFixed(2)}</span> |
-      <p>Unidades: {quantity}</p> |
+      <span className='font-semibold'>${precio.toFixed(2)}</span>
+      <p>Unidades: {quantity}</p>
       <div className='flex gap-x-2'>
         <button
           title='Añadir otra unidad de este producto.'

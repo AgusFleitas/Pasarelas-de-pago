@@ -1,13 +1,11 @@
 import Cart from "./Cart";
-import MoneyLogo from "../../public/money.png";
+import MoneyLogo from "/money.png";
 
 import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
-    <header className='bg-sky-200/60 rounded-full flex gap-x-2 mt-5 max-w-[1400px] justify-end items-center py-2 px-4 mb-8 h-12 mx-auto shadow-md shadow-gray-400'>
-      {/* <div className="flex h-full items-center bg-white rounded-full cursor-pointer px-3 py-1 font-semibold">
-      </div> */}
+    <header className='bg-sky-200/60 rounded-full flex gap-x-2 mt-5 md:max-w-[680px] lg:max-w-[850px] xl:max-w-[1200px] 2xl:max-w-[1400px] justify-end items-center py-2 px-4 mb-8 h-12 mx-auto shadow-md shadow-gray-400'>
       <div className="flex h-full mr-auto items-center gap-x-1">
         <img className="h-full" src={MoneyLogo} alt="Logo de Fleitas-Shop, " />
         <span className="font-bold text-xl">Fleitas Shop</span>

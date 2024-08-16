@@ -13,7 +13,7 @@ const PaymentInfoST = ({ paymentInfo, handleTurnBack }) => {
     <article className='relative w-full'>
       <button
         title='Volver atrás.'
-        className='absolute top-0 left-0 bg-sky-200/60 p-1 rounded-full hover:bg-sky-300'
+        className='absolute top-0 -left-4 bg-sky-200/60 p-1 rounded-full hover:bg-sky-300'
         onClick={handleTurnBack}
       >
         <svg
@@ -36,25 +36,25 @@ const PaymentInfoST = ({ paymentInfo, handleTurnBack }) => {
       <h4 className='text-center font-semibold text-xl mb-10'>
         Detalles sobre tu pago:
       </h4>
-      <div className='flex justify-between mb-4'>
+      <div className='flex flex-col md:flex-row justify-between mb-4'>
         <p className='font-semibold'>ID de la sesión:</p>
-        <p className='block max-w-96 break-words text-end'>
+        <p className='block w-64 sm:w-72 md:max-w-96 break-words md:text-end'>
           {paymentInfo.retrievedSession.id}
         </p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>ID del pago:</p>
         <p>{paymentInfo.retrievedSession.payment_intent}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Fecha de creación:</p>
         <p>{transformUnixDate(paymentInfo.retrievedSession.created)}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Moneda:</p>
         <p>{paymentInfo.retrievedSession.currency.toUpperCase()}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Monto total de la compra:</p>
         <p>
           $
@@ -74,11 +74,11 @@ const PaymentInfoST = ({ paymentInfo, handleTurnBack }) => {
           ))}
         </ul>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Correo del pagador:</p>
         <p>{paymentInfo.retrievedSession.customer_details.email}</p>
       </div>
-      <div className='flex justify-between'>
+      <div className='flex flex-col md:flex-row justify-between'>
         <p className='font-semibold'>Nombre y apellido:</p>
         <p>{paymentInfo.retrievedSession.customer_details.name}</p>
       </div>

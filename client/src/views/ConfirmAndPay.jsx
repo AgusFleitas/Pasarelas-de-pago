@@ -97,8 +97,8 @@ const ConfirmAndPay = () => {
   return (
     <section className='w-full flex flex-col justify-center items-center'>
       <h1 className='font-bold text-4xl text-center mb-6'>Finaliza el pago</h1>
-      <div className='w-96 h-48 px-6 py-4 bg-white rounded-md border-2 border-sky-200/60 flex flex-col mb-8'>
-        <div className='w-full flex justify-between text-lg'>
+      <div className='md:w-96 h-48 px-6 py-4 bg-white rounded-md border-2 border-sky-200/60 flex flex-col mb-8'>
+        <div className='w-full flex flex-col md:flex-row items-center md:justify-between text-lg'>
           <p>Monto final por tu compra:</p>
           <span>${totalPrice.toFixed(2)}</span>
         </div>
@@ -116,6 +116,7 @@ const ConfirmAndPay = () => {
         )}
         {gateway === "pp" && preferenceId && (
           <PayPalButtons
+          className="w-64 md:w-96"
             style={styles}
             createOrder={() => preferenceId}
             onApprove={(data, actions) => {

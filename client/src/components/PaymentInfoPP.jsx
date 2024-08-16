@@ -26,19 +26,19 @@ const PaymentInfoPP = ({ paymentInfo, transformDate, handleTurnBack }) => {
         <h4 className='text-center font-semibold text-xl mb-10'>
           Detalles sobre tu pago:
         </h4>
-        <div className='flex justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>ID de la operación:</p>
           <p>{paymentInfo.id}</p>
         </div>
-        <div className='flex justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Última actualización del pago:</p>
           <p>{transformDate(paymentInfo.update_time)}</p>
         </div>
-        <div className='flex justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Moneda:</p>
           <p>{paymentInfo.purchase_units[0].amount.currency_code}</p>
         </div>
-        <div className='flex justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Monto total de la compra:</p>
           <p>${parseInt(paymentInfo.purchase_units[0].amount.value).toFixed(2)}</p>
         </div>
@@ -55,11 +55,11 @@ const PaymentInfoPP = ({ paymentInfo, transformDate, handleTurnBack }) => {
             ))}
           </ul>
         </div>
-        <div className='flex justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Correo del pagador:</p>
-          <p>{paymentInfo.payer.email_address}</p>
+          <p className="truncate">{paymentInfo.payer.email_address}</p>
         </div>
-        <div className='flex justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Nombre y apellido:</p>
           <p>{Object.values(paymentInfo.payer.name).join(' ')}</p>
         </div>
