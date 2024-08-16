@@ -158,7 +158,6 @@ export function CartProvider({ children }) {
         }
       );
 
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -238,8 +237,6 @@ export function CartProvider({ children }) {
           items: cartItems,
         }
       );
-
-      console.log(response.data);
 
       const url = response.data.url;
 

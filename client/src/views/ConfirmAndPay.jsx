@@ -48,10 +48,7 @@ const ConfirmAndPay = () => {
     totalPrice += product.precio * product.quantity;
   });
 
-  //TODO Setear la preferencia en el localStorage
-  //TODO Colocar un botón para volver al carrito.
-
-  // Para ejecutar una función asíncrona (createPreference()) dentro del useEffect debemos crear otra función asíncrona que la ejecute y que la espere, además, debemos ejecutarla al final del useEffect. Por eso creamos 'getPreferenceId()' para ejecutar 'createPreference()' dentro de ella y al final del useEffect ejecutamos 'getPreferenceId()'.
+  // Para ejecutar una función asíncrona dentro del useEffect debemos crear otra función asíncrona que la ejecute y que la espere, además, debemos ejecutarla al final del useEffect. Por eso creamos 'getPreferenceId()' para ejecutar 'createPreference()' dentro de ella.
 
   // useEffect para obtener la preferencia tan pronto se monte el componente.
   useEffect(() => {
@@ -122,17 +119,18 @@ const ConfirmAndPay = () => {
             style={styles}
             createOrder={() => preferenceId}
             onApprove={(data, actions) => {
-              console.log(data);
               actions.order
                 .capture()
                 .then(() => {
                   actions.redirect(`http://localhost:5173/payment-success?payment_id=${data.orderID}`);
                 })
                 .catch(() => {
-                  console.log('Hubo un error al confirmar el pago.');
+                  actions.redirect(`http://localhost:5173/payment-failed`);
                 });
             }}
-            onCancel={() => {}}
+            onCancel={(_, actions) => {
+              actions.redirect(`http://localhost:5173/payment-failed`);
+            }}
           />
         )}
       </PayPalScriptProvider>
