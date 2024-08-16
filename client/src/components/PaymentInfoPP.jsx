@@ -48,8 +48,8 @@ const PaymentInfoPP = ({ paymentInfo, transformDate, handleTurnBack }) => {
             {paymentInfo.purchase_units[0].items.map((item) => (
               <li key={item.name}>
                 <div className='flex justify-end gap-x-4'>
-                  <p className='w-48'>- {item.name}</p>
-                  <p>${parseInt(item.unit_amount.value).toFixed(2)}</p>
+                  <p className='w-48'>- {item.quantity} {item.name}</p>
+                  <p>${parseInt(item.unit_amount.value * item.quantity).toFixed(2)}</p>
                 </div>
               </li>
             ))}

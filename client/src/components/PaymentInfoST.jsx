@@ -67,8 +67,8 @@ const PaymentInfoST = ({ paymentInfo, handleTurnBack }) => {
           {paymentInfo.retrievedItems.data.map((item) => (
             <li key={item.id}>
               <div className='flex justify-end gap-x-4'>
-                <p className='w-48'>- {item.description}</p>
-                <p>${parseInt(item.amount_total / 100).toFixed(2)}</p>
+                <p className='w-48'>- {item.quantity} {item.description}</p>
+                <p>${parseInt(item.amount_total / 100 * item.quantity).toFixed(2)}</p>
               </div>
             </li>
           ))}

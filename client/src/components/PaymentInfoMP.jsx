@@ -52,8 +52,8 @@ const PaymentInfoMP = ({ paymentInfo, transformDate, handleTurnBack }) => {
           {paymentInfo.additional_info.items.map((item) => (
             <li key={item.id}>
               <div className='flex justify-end gap-x-4'>
-                <p className='w-48'>- {item.title}</p>
-                <p>${parseInt(item.unit_price).toFixed(2)}</p>
+                <p className='w-48'>- {item.quantity} {item.title}</p>
+                <p>${parseInt(item.unit_price * item.quantity).toFixed(2)}</p>
               </div>
             </li>
           ))}
