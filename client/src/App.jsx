@@ -20,7 +20,7 @@ function App() {
     <CartProvider>
       <Layout>
         <Header />
-        <main className='grid items-center pb-12 px-6 md:px-12 lg:px-44'>
+        <main className='grid items-center pb-12 md:pb-0 px-6 md:px-12 lg:px-44'>
           <Routes>
             <Route path='/' element={<Landing />} />
             <Route path='/credentials' element={<Credentials />} />
