@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { catalogue } from "../js/catalogue";
 import generateRandomRef from "../hooks/randomRef";
 
@@ -80,7 +80,19 @@ const reducer = (state, action) => {
 // 2. Crear Provider (este archivo) y proveer el contexto (en donde sea necesario).
 export function CartProvider({ children }) {
   // Estado para listar el carrito.
-  const [state, dispatch] = useReducer(reducer, initialState);
+  //? useReducer recibe 3 parámetros: 'reducer' con toda la lógica para cada uno de los casos. 'initalState' que será el estado inicial del reducer y el 3ro es una 'función de inicialización' donde intentamos obtener el carrito del localStorage, si tiene algún valor, ese será el estado inicial (de la propiedad cart), de otro modo, será nuestro initialState totalmente vacío.
+  const [state, dispatch] = useReducer(reducer, initialState, () => {
+    const localData = localStorage.getItem('cart');
+
+    return localData  
+    ? {...initialState, cart: JSON.parse(localData)} 
+    : initialState;
+  });
+
+  // useEffect para setear y modificar el carrito en localStorage (Persistencia).
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state.cart));
+  }, [state.cart]);
 
   const addToCart = (product) =>
     dispatch({
