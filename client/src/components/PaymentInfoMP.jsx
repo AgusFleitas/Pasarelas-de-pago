@@ -3,7 +3,7 @@ const PaymentInfoMP = ({ paymentInfo, transformDate, handleTurnBack }) => {
     <article className='relative w-full'>
       <button
         title='Volver atrás.'
-        className='absolute top-0 left-0 bg-sky-200/60 p-1 rounded-full hover:bg-sky-300'
+        className='absolute top-0 -left-4 bg-sky-200/60 p-1 rounded-full hover:bg-sky-300'
         onClick={handleTurnBack}
       >
         <svg

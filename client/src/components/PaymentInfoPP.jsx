@@ -3,7 +3,7 @@ const PaymentInfoPP = ({ paymentInfo, transformDate, handleTurnBack }) => {
       <article className='relative w-full'>
         <button
           title='Volver atrás.'
-          className='absolute top-0 left-0 bg-sky-200/60 p-1 rounded-full hover:bg-sky-300'
+          className='absolute top-0 -left-4 bg-sky-200/60 p-1 rounded-full hover:bg-sky-300'
           onClick={handleTurnBack}
         >
           <svg
@@ -57,7 +57,7 @@ const PaymentInfoPP = ({ paymentInfo, transformDate, handleTurnBack }) => {
         </div>
         <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Correo del pagador:</p>
-          <p className="truncate">{paymentInfo.payer.email_address}</p>
+          <p className="flex truncate text-sm">{paymentInfo.payer.email_address}</p>
         </div>
         <div className='flex flex-col md:flex-row justify-between'>
           <p className='font-semibold'>Nombre y apellido:</p>
