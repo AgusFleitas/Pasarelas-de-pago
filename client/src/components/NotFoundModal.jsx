@@ -2,7 +2,7 @@ const NotFoundModal = ({closeFunc}) => {
   return (
     <div className='fixed inset-0 flex items-center justify-center z-50'>
       <div className='absolute inset-0 bg-black opacity-50' />
-      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col w-[44rem] h-fit items-center gap-y-4 border-[3px] border-sky-200 bg-white py-2 px-4 rounded-md '>
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col w-[20rem] md:w-[44rem] h-fit items-center gap-y-4 border-[3px] border-sky-200 bg-white py-2 px-4 rounded-md '>
         <span className='text-xl font-semibold text-center'>¡Oh, vaya!</span>
         <svg
           xmlns='http://www.w3.org/2000/svg'
