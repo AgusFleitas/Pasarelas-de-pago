@@ -39,7 +39,7 @@ export const createPreference = async (req, res) => {
       statement_descriptor: "AgusFleitas TestingShop",
       back_urls: {
         success: `${CLIENT_HOST}/payment-success`,
-        failure: `${CLIENT_HOST}/payment-cancel`,
+        failure: `${CLIENT_HOST}/payment-failed`,
         pending: `${CLIENT_HOST}/payment-pending`,
       },
       auto_return: "approved",
@@ -247,7 +247,7 @@ export const createSession = async (req, res) => {
     line_items: lineItems,
     mode: "payment",
     success_url: `${CLIENT_HOST}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${CLIENT_HOST}/payment-cancel`,
+    cancel_url: `${CLIENT_HOST}/payment-failed`,
   });
 
   // Retorno.
