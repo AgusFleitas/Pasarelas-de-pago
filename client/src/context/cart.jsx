@@ -1,5 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import { catalogue } from "../js/catalogue";
+import { SERVER_HOST } from "../js/server_host";
 import generateRandomRef from "../hooks/randomRef";
 
 import axios from "axios";
@@ -129,7 +130,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/create-preference",
+        `${SERVER_HOST}/create-preference`,
         {
           products: cartItems,
           reference: randomExternalRef,
@@ -152,7 +153,7 @@ export function CartProvider({ children }) {
   const getPaymentInfoWithMP = async (paymentID) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/get-payment-mercadopago",
+        `${SERVER_HOST}/get-payment-mercadopago`,
         {
           paymentID,
         }
@@ -181,7 +182,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/create-payment",
+        `${SERVER_HOST}/create-payment`,
         {
           items: cartItems,
         }
@@ -203,7 +204,7 @@ export function CartProvider({ children }) {
   const getPaymentInfoWithPP = async (paymentID) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/get-payment-paypal",
+        `${SERVER_HOST}/get-payment-paypal`,
         {
           paymentID,
         }
@@ -232,7 +233,7 @@ export function CartProvider({ children }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/create-session",
+        `${SERVER_HOST}/create-session`,
         {
           items: cartItems,
         }
@@ -254,7 +255,7 @@ export function CartProvider({ children }) {
   const retrieveSessionWithStripe = async (sessionID) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/retrieve-stripe-session",
+        `${SERVER_HOST}/retrieve-stripe-session`,
         {
           sessionID,
         }
